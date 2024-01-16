@@ -2,6 +2,7 @@ import {
   MdOutlineShortText,
   MdArrowDropDownCircle,
   MdOutlineDateRange,
+  MdRadioButtonChecked,
 } from "react-icons/md";
 
 export const dataForm = [
@@ -19,5 +20,10 @@ export const dataForm = [
     title: "Pilihan Tanggal",
     value: "DatePicker",
     icon: <MdOutlineDateRange size={24} />,
+  },
+  {
+    title: "Pilihan Ganda",
+    value: "RadioMultiple",
+    icon: <MdRadioButtonChecked size={24} />,
   },
 ];

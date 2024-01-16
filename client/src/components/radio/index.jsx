@@ -1,11 +1,17 @@
 const Radio = (props) => {
-  const { color, id, name, ...rest } = props;
+  const { color, id, extra, value, onChange, label, checked, name, ...rest } =
+    props;
   return (
-    <input
-      id={id}
-      name={name}
-      type="radio"
-      className={`before:contet[""] relative h-5 w-5 cursor-pointer appearance-none rounded-full
+    <div className="flex flex-row-reverse items-center justify-end gap-2">
+      <label className="text-sm font-semibold text-navy-700 dark:text-white">
+        {label}
+      </label>
+      <input
+        value={value}
+        checked={checked}
+        onChange={onChange}
+        type="radio"
+        className={`before:contet[""] relative h-5 w-5 cursor-pointer appearance-none rounded-full
        border !border-gray-300 transition-all duration-[0.2s] before:absolute before:top-[3px]
        before:left-[50%] before:h-3 before:w-3 before:translate-x-[-50%] before:rounded-full before:transition-all before:duration-[0.2s] dark:!border-gray-800
        ${
@@ -39,8 +45,9 @@ const Radio = (props) => {
            ? "checked:!border-gray-500 checked:before:!bg-gray-500 dark:checked:!border-gray-400 dark:checked:before:!bg-gray-400"
            : "checked:!border-brand-500 checked:before:!bg-brand-500 dark:checked:!border-brand-400 dark:checked:before:!bg-brand-400"
        } `}
-      {...rest}
-    />
+        {...rest}
+      />
+    </div>
   );
 };
 

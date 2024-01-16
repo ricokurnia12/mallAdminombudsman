@@ -83,7 +83,7 @@ const FormBuilder = () => {
 
         break;
 
-      case "TextField": {
+      case "TextField":
         setListQuestions([
           ...listQuestions,
           {
@@ -94,10 +94,44 @@ const FormBuilder = () => {
             },
           },
         ]);
-      }
 
-      default:
         break;
+      case "DatePicker":
+        setListQuestions([
+          ...listQuestions,
+          {
+            type: "DatePicker",
+            required: true,
+            data: {
+              label: `Pertanyaan ${listQuestions.length + 1}`,
+            },
+          },
+        ]);
+        break;
+      case "RadioMultiple":
+        setListQuestions([
+          ...listQuestions,
+          {
+            type: "RadioMultiple",
+            required: false,
+            data: {
+              label: `Pertanyaan ${listQuestions.length + 1}`,
+              options: [
+                {
+                  label: "Pilihan 1",
+                  value: 1,
+                },
+                {
+                  label: "Pilihan 2",
+                  value: 2,
+                },
+              ],
+            },
+          },
+        ]);
+
+        break;
+      default:
     }
 
     // setListQuestions([
@@ -169,22 +203,18 @@ const FormBuilder = () => {
         })}
       </div>
       <div className="col-span-1 flex h-fit w-full flex-col gap-2 xl:col-span-1 2xl:col-span-2">
-    
-     
-          {" "}
-          <QuestionList
-            onDragStartIdx={onDragStartIdx}
-            onDragOverIdx={onDragOverIdx}
-            onDropIdx={onDropIdx}
-            openEdit={handleOpenEdit}
-            closeEdit={handleCloseEdit}
-            idxIsOpen={openEdit}
-            handleRemove={removeField}
-            handleUpdateListQuestion={handleUpdateListQuestion}
-            questions={listQuestions}
-          />
-    
-
+        {" "}
+        <QuestionList
+          onDragStartIdx={onDragStartIdx}
+          onDragOverIdx={onDragOverIdx}
+          onDropIdx={onDropIdx}
+          openEdit={handleOpenEdit}
+          closeEdit={handleCloseEdit}
+          idxIsOpen={openEdit}
+          handleRemove={removeField}
+          handleUpdateListQuestion={handleUpdateListQuestion}
+          questions={listQuestions}
+        />
         <div
           className="mt-2 flex h-8 w-full items-center justify-center rounded-md border border-gray-300 bg-gray-100 shadow-md "
           onDragOver={onDragOver}

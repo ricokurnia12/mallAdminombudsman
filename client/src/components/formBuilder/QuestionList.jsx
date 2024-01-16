@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import EditingForm from "components/editingform";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import MultiSelect from "components/multiSelect";
 import InputField from "components/fields/InputField";
+import DatePicker from "components/date";
+import Radio from "components/radio";
 const QuestionList = ({
   questions,
   onDragStartIdx,
@@ -15,6 +17,11 @@ const QuestionList = ({
   handleRemove,
   handleUpdateListQuestion,
 }) => {
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleRadioChange = (value) => {
+    setSelectedOption(value);
+  };
   const Container = ({ i, children }) => {
     return (
       <div
@@ -92,10 +99,55 @@ const QuestionList = ({
           case "DatePicker":
             return (
               <Container key={i} i={i}>
-                <input type="datetime-local" />
+                <DatePicker
+                  required={el.required}
+                  extra=""
+                  label={el?.data?.label}
+                  placeholder="jawaban"
+                  id="email"
+                  type="text"
+                  key={i}
+                />
+                {idxIsOpen === i && (
+                  <EditingForm
+                    data={el}
+                    idx={i}
+                    save={handleUpdateListQuestion}
+                    close={() => openEdit()}
+                  />
+                )}
               </Container>
             );
-
+          case "RadioMultiple":
+            return (
+              <Container key={i} i={i}>
+                <label
+                  className={`ml-3 text-sm font-bold text-navy-700 dark:text-white`}
+                >
+                  {el?.data?.label}
+                  {el.required && <sup>*</sup>}
+                </label>
+                <div className="flex flex-wrap gap-4">
+                  {el.data.options.map((option, index) => (
+                    <Radio
+                      key={index}
+                      label={option.label}
+                      value={option.value}
+                      checked={selectedOption === option.value}
+                      onChange={() => handleRadioChange(option.value)}
+                    />
+                  ))}
+                </div>
+                {idxIsOpen === i && (
+                  <EditingForm
+                    data={el}
+                    idx={i}
+                    save={handleUpdateListQuestion}
+                    close={() => openEdit()}
+                  />
+                )}
+              </Container>
+            );
           default:
             return null;
         }
