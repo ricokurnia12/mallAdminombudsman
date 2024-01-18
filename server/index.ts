@@ -17,7 +17,8 @@ const mongoURI: string | undefined = process.env.MONGO_URL;
 // console.log(mongoURI);
 
 if (!mongoURI) {
-  console.error(
+  console.error
+  (
     'MongoDB URI is not defined in the environment variables.'
   );
   process.exit(1); // Exit the application if MongoDB URI is not defined.
