@@ -7,6 +7,6 @@ const agencySchema = new mongoose.Schema({
   },
 });
 
-const AgencySchema = mongoose.model("Instansi", agencySchema);
+const AgencySchema = mongoose.model("Agency", agencySchema);
 
 export default AgencySchema;

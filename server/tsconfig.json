@@ -1,14 +1,15 @@
 {
-  "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "outDir": "dist",
-    "rootDir": ".",
-    "baseUrl": "./",
-    "strict": true,
-    "esModuleInterop": true,
-    "paths": {
-      "@src/*": ["src/*"]
+    "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "outDir": "dist",
+      "rootDir": "./src",
+      "baseUrl": "./src",
+      "strict": true,
+      "esModuleInterop": true,
+      "paths": {
+        "@src/*": ["*"]
+      }
     }
   }
-}
+  

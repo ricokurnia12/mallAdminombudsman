@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
-import api from "./api";
+import api from "@src/api";
 
 dotenv.config();
 const app: express.Application | undefined = express();
@@ -25,6 +25,7 @@ if (!mongoURI) {
 }
 
 mongoose
+
   .connect(mongoURI)
   .then(() => {
     app.listen(PORT, () => {

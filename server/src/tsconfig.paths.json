@@ -1,0 +1,23 @@
+{
+    "extends": "./tsconfig.paths.json",
+    "compilerOptions": {
+      // your existing compiler options...
+      "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "outDir": "dist",
+        "rootDir": "./src",
+        "baseUrl": ".",
+        "strict": true,
+        "esModuleInterop": true,
+        "paths": {
+          "@src/*": ["*"]
+        }
+      }
+    },
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.d.ts"
+    ]
+  }
+  

@@ -1,4 +1,4 @@
-import AgencySchema from "../models/AgencyModel";
+import AgencySchema from "@src/models/AgencyModel";
 
 import { Request, Response } from "express";
 

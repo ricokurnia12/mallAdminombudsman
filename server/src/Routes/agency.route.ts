@@ -5,7 +5,7 @@ import {
   getAllAgencies,
   editAgency,
   getAgencyById,
-} from "../controller/Agency.controller";
+} from "@src/controller/Agency.controller";
 
 const router = Router();
 
