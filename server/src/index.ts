@@ -2,11 +2,14 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
+import api from "@src/api";
+
 dotenv.config();
-const app = express();
+const app: express.Application | undefined = express();
 const PORT: number = 5000;
 app.use(express.json());
 app.use(cookieParser());
+app.use("/api/malladmin", api);
 
 app.get("/", (req, res) => {
   res.send("Hello, Express with TypeScript!");
