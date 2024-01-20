@@ -15,15 +15,15 @@ app.get("/", (req, res) => {
   res.send("Hello, Express with TypeScript!");
 });
 
+// import mongo url
 const mongoURI: string | undefined = process.env.MONGO_URL;
-
-// console.log(mongoURI);
 
 if (!mongoURI) {
   console.error("MongoDB URI is not defined in the environment variables.");
   process.exit(1); // Exit the application if MongoDB URI is not defined.
 }
 
+// connect ke database
 mongoose
 
   .connect(mongoURI)
