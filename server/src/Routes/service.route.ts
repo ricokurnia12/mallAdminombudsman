@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-  addServices,
+  createServiceController,
   getAllService,
   removeService,
 } from "@src/controllers/service.controller";
@@ -8,7 +8,7 @@ import {
 const router = Router();
 
 router.get("/", getAllService);
-router.post("/add", addServices);
+router.post("/add", createServiceController);
 router.delete("/delete/:id", removeService);
 
 export default router;

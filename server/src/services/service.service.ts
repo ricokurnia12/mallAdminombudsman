@@ -12,62 +12,45 @@ export const getService = async () => {
   }
 };
 
-export const createService = async (data: ServiceInterface, res: Response) => {
+export const createService = async (data: ServiceInterface) => {
   try {
     const { name, agenciesId } = data;
 
-    // Validate required fields
-    if (!name || !agenciesId) {
-      return res
-        .status(400)
-        .json({ message: "name and agenciesId are required" });
-    }
-
-    // Validate if agenciesId is a valid ObjectId
-    if (!mongoose.Types.ObjectId.isValid(agenciesId)) {
-      return res.status(400).json({ message: "Invalid agenciesId format" });
-    }
-
-    // Check if the service with the same name already exists in the same agency
+    // Validasi jika service dengan nama yang sama sudah ada di agency yang sama
     const existingService = await ServiceSchema.findOne({ name, agenciesId });
 
     if (existingService) {
-      return res.status(400).json({
-        message: "Service with the same name already exists in the same agency",
-      });
+      return {
+        error: "Service with the same name already exists in the same agency",
+      };
     }
 
-    // Create a new service
-    const newService = new ServiceSchema({
-      name,
-      agenciesId,
-    });
-
-    // Save the new service to the database
+    // Buat dan simpan service baru
+    const newService = new ServiceSchema({ name, agenciesId });
     const savedService = await newService.save();
-    res.status(201).json(savedService);
+    return savedService.toObject();
   } catch (error) {
-    console.error("Error creating service:", error);
-
-    // Send an internal server error response to the client
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error("Error in createService:", error);
+    throw error;
   }
 };
 
-export const deleteService = async (id: string, res: Response) => {
+export const deleteService = async (id: string) => {
   try {
     if (!id) {
       throw new Error("Id service is required!");
     }
 
     const deletedService = await ServiceSchema.findByIdAndDelete(id);
-    if (!deletedService) {
-      return res.status(404).json({ message: "id service not found" });
-    }
-
-    res.status(200).json(deletedService);
+    return deletedService;
   } catch (error) {
     console.error("Error deleting service:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    throw new Error("Internal Server Error");
   }
+};
+
+export const getServiceByAgenSer = async (id: string) => {
+  try {
+    
+  } catch (error) {}
 };
