@@ -5,7 +5,9 @@ import {
   createService,
   deleteService,
   getService,
+  getServicesid,
 } from "@src/services/service.service";
+import { ObjectId } from "mongodb";
 
 export const getAllService = async (req: Request, res: Response) => {
   try {
@@ -18,7 +20,12 @@ export const getAllService = async (req: Request, res: Response) => {
 
 export const createServiceController = async (req: Request, res: Response) => {
   try {
-    const { data } = req.body;
+    const { name, agenciesId } = req.body;
+    if (!ObjectId.isValid(agenciesId)) {
+      return res.status(400).json({ message: "ID not valid" });
+    }
+    const data = { name, agenciesId };
+
     const result = await createService(data);
 
     if ("error" in result) {
@@ -48,11 +55,26 @@ export const removeService = async (req: Request, res: Response) => {
   }
 };
 
-export const getServiceByAgen =  async (req:Request, res:Response)=>{
+export const getServiceById = async (req: Request, res: Response) => {
   try {
-    const {id} = req.params
-   
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: "Agency ID is required" });
+    }
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "ID not valid" });
+    }
+
+    const services = await getServicesid(id);
+
+    if ("error" in services) {
+      return res.status(404).json({ message: services.error });
+    }
+
+    res.status(200).json(services);
   } catch (error) {
-    
+    console.error("Error getting services by agency ID:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-}
+};

@@ -1,7 +1,5 @@
 import ServiceSchema from "@src/models/service.schema";
 import { ServiceInterface } from "@src/interfaces/service.interface";
-import { Response, Request } from "express";
-import mongoose from "mongoose";
 
 export const getService = async () => {
   try {
@@ -15,9 +13,16 @@ export const getService = async () => {
 export const createService = async (data: ServiceInterface) => {
   try {
     const { name, agenciesId } = data;
+    console.log(data);
+
+    // Konversi nama ke huruf kecil
+    const lowercaseName = name.toLowerCase();
 
     // Validasi jika service dengan nama yang sama sudah ada di agency yang sama
-    const existingService = await ServiceSchema.findOne({ name, agenciesId });
+    const existingService = await ServiceSchema.findOne({
+      name: lowercaseName,
+      agenciesId,
+    });
 
     if (existingService) {
       return {
@@ -49,8 +54,21 @@ export const deleteService = async (id: string) => {
   }
 };
 
-export const getServiceByAgenSer = async (id: string) => {
+export const getServicesid = async (agencyId: string) => {
   try {
-    
-  } catch (error) {}
+    if (!agencyId) {
+      throw new Error("Agency ID is required!");
+    }
+
+    const services = await ServiceSchema.findById(agencyId);
+    if (!services) {
+      return {
+        error: "id service not found",
+      };
+    }
+    return services;
+  } catch (error) {
+    console.error("Error getting services by agency ID:", error);
+    throw new Error("Internal Server Error");
+  }
 };

@@ -1,3 +1,4 @@
+import { DeletedAgencyOrError } from "@src/interfaces/agency.interface";
 import AgencySchema from "@src/models/agency.schema";
 import {
   addAgencyService,
@@ -6,19 +7,26 @@ import {
   getAgencyByIdService,
   getAgencyService,
 } from "@src/services/agency.service";
+import { ObjectId } from "mongodb";
 
 import { Request, Response, response } from "express";
 
+type DeletedAgencyOrErrorOrNull = DeletedAgencyOrError | null;
+
 // Controller untuk menambahkan data instansi
+
 export const addAgency = async (req: Request, res: Response) => {
   try {
-    // mengambil nama dari client
     const { name } = req.body;
-    // update data menggunakan service
-    const savedAgency = await addAgencyService(name);
-    // respon ke client hasilnya
-    res.status(201).json(savedAgency);
+    const result = await addAgencyService(name);
+
+    if (result.error) {
+      return res.status(400).json({ message: result.error });
+    }
+
+    res.status(201).json(result);
   } catch (error) {
+    console.error("Error in addAgency:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -37,7 +45,13 @@ export const getAllAgencies = async (req: Request, res: Response) => {
 export const getAgencyById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "ID not valid" });
+    }
     const agencies = await getAgencyByIdService(id);
+    if (!agencies) {
+      return res.status(404).json({ message: "id not found" });
+    }
     res.status(201).json(agencies);
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -49,13 +63,16 @@ export const editAgency = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { name } = req.body;
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "ID not valid" });
+    }
 
-    const updatedAgency = await editAgencyService(id, name);
+    const objectId = new ObjectId(id);
+    const updatedAgency = await editAgencyService(objectId, name); // Memberikan tanggapan berdasarkan hasil editAgencyService
 
-    // Memberikan tanggapan berdasarkan hasil editAgencyService
-    if (typeof updatedAgency === "string") {
-      // Jika hasil adalah string, berarti ada pesan kesalahan
-      res.status(404).json({ message: updatedAgency });
+    if (updatedAgency === null) {
+      // Jika hasil adalah null, berarti ID tidak valid
+      res.status(404).json({ message: "Instansi tidak ditemukan" });
     } else {
       // Jika berhasil diupdate, kembalikan objek yang diupdate
       res.status(200).json(updatedAgency);
@@ -70,14 +87,19 @@ export const editAgency = async (req: Request, res: Response) => {
 export const deleteAgency = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-
-    const deletedAgency = await deleteAgencyService(id);
-
-    if (!deletedAgency) {
-      return res.status(404).json({ message: "Instansi tidak ditemukan" });
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "ID not valid" });
     }
+    const removeddAgency: DeletedAgencyOrErrorOrNull =
+      (await deleteAgencyService(id)) as DeletedAgencyOrError;
 
-    res.status(200).json(deletedAgency);
+    if (removeddAgency === null) {
+      // Jika hasil adalah null, berarti ID tidak valid
+      res.status(404).json({ message: "Instansi tidak ditemukan" });
+    } else {
+      // Jika berhasil diupdate, kembalikan objek yang diupdate
+      res.status(200).json(removeddAgency);
+    }
   } catch (error) {
     console.error("Error in deleteAgency:", error);
     res.status(500).json({ message: "Internal Server Error" });

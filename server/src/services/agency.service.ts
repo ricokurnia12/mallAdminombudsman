@@ -16,21 +16,20 @@ export const getAgencyService = async () => {
 };
 
 // Service untuk menambahkan data instansi baru
-export const addAgencyService = async (name: AgencyInterface) => {
+
+export const addAgencyService = async (name: string) => {
   try {
-    // Membuat objek baru berdasarkan model AgencySchema dengan menggunakan Mongoose
+    const existingAgency = await AgencySchema.findOne({ name });
+    if (existingAgency) {
+      return { error: "Agency with this name already exists" } as const;
+    }
+
     const newAgency = new AgencySchema({ name });
-
-    // Menyimpan objek baru ke MongoDB
     const savedAgency = await newAgency.save();
-
-    // Mengembalikan objek yang baru saja disimpan
-    return savedAgency;
+    return { agency: savedAgency };
   } catch (error) {
-    // Log error jika terjadi kesalahan
     console.error("Error in addAgencyService:", error);
-    // Jangan lupa untuk menangani atau melemparkan error sesuai kebutuhan
-    // throw error;
+    throw error;
   }
 };
 
@@ -50,15 +49,16 @@ export const getAgencyByIdService = async (id: string) => {
   }
 };
 
-export const editAgencyService = async (id: string, name: string) => {
+export const editAgencyService = async (id: ObjectId, name: string) => {
   try {
     const updatedAgency = await AgencySchema.findByIdAndUpdate(
       id,
       { name },
       { new: true }
     );
+
     if (!updatedAgency) {
-      return "Instansi tidak ditemukan";
+      return null;
     }
 
     return updatedAgency;
@@ -72,6 +72,9 @@ export const deleteAgencyService = async (id: string) => {
   try {
     // Menggunakan Mongoose untuk mencari dan menghapus data instansi berdasarkan ID
     const deletedAgency = await AgencySchema.findByIdAndDelete(id);
+    if (!deleteAgencyService) {
+      return null;
+    }
 
     // Jika data instansi tidak ditemukan, kembalikan null
     return deletedAgency;
