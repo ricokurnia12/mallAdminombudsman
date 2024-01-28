@@ -1,7 +1,6 @@
 import express from "express";
-
-import AgencyRouter from "@src/routes/agency.route";
-import ServiceRouter from "@src/routes/service.route";
+import AgencyRouter from "@src/Routes/agency.route";
+import ServiceRouter from "@src/Routes/service.route";
 const router = express.Router();
 
 router.use("/agency", AgencyRouter);

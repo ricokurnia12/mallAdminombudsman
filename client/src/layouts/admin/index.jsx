@@ -8,7 +8,7 @@ import routes from "routes.js";
 export default function Admin(props) {
   const { ...rest } = props;
   const location = useLocation();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [currentRoute, setCurrentRoute] = React.useState("Main Dashboard");
 
   React.useEffect(() => {
@@ -64,7 +64,9 @@ export default function Admin(props) {
       <div className="h-full w-full bg-lightPrimary dark:!bg-navy-900">
         {/* Main Content */}
         <main
-          className={`mx-[12px] h-full flex-none transition-all md:pr-2 xl:ml-[313px]`}
+          className={`mx-[12px] h-full flex-none transition-all md:pr-2 ${
+            open ? "xl:ml-[260px]" : ""
+          }`}
         >
           {/* Routes */}
           <div className="h-full">

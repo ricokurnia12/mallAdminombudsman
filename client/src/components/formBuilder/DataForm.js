@@ -5,25 +5,26 @@ import {
   MdRadioButtonChecked,
 } from "react-icons/md";
 
+const size = 14;
 export const dataForm = [
   {
     title: "Jawaban Singkat",
     value: "TextField",
-    icon: <MdOutlineShortText size={24} />,
+    icon: <MdOutlineShortText size={size} />,
   },
   {
     title: "Pilihan Dropdown",
     value: "DropDownSelect",
-    icon: <MdArrowDropDownCircle size={24} />,
+    icon: <MdArrowDropDownCircle size={size} />,
   },
   {
     title: "Pilihan Tanggal",
     value: "DatePicker",
-    icon: <MdOutlineDateRange size={24} />,
+    icon: <MdOutlineDateRange size={size} />,
   },
   {
     title: "Pilihan Ganda",
     value: "RadioMultiple",
-    icon: <MdRadioButtonChecked size={24} />,
+    icon: <MdRadioButtonChecked size={size} />,
   },
 ];

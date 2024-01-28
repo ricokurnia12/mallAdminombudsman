@@ -4,7 +4,8 @@ import Checkbox from "components/checkbox";
 import { MdDeleteForever } from "react-icons/md";
 import { BsPlusSquareFill } from "react-icons/bs";
 
-const EditingForm = ({ save, close, idx, data }) => {
+const EditingForm = ({ save, close, idx, data, idxGrouped }) => {
+  console.log(idxGrouped);
   const [optionList, setOptionList] = useState([]);
   const [label, setLabel] = useState();
   const [newOptionLabel, setNewOptionLabel] = useState("New Option");
@@ -128,7 +129,7 @@ const EditingForm = ({ save, close, idx, data }) => {
                 key={i}
                 className={`${
                   genap ? "bg-gray-50 dark:bg-navy-700" : ""
-                } mt-2 grid grid-cols-12 items-center justify-center  md:gap-8 py-2 px-4`}
+                } mt-2 grid grid-cols-12 items-center justify-center  py-2 px-4 md:gap-8`}
               >
                 <div className="col-span-12 md:col-span-5">
                   <InputField
@@ -177,7 +178,7 @@ const EditingForm = ({ save, close, idx, data }) => {
         </button>
         <button
           onClick={() => {
-            save(dataUpdated, idx);
+            save(dataUpdated, idxGrouped, idx);
             close();
           }}
           className="linear mt-2 w-full rounded-xl bg-brand-500 py-[8px]  text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200"

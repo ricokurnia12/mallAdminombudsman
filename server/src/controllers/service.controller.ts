@@ -6,6 +6,7 @@ import {
   deleteService,
   getService,
   getServicesid,
+  getAgencyService,
 } from "@src/services/service.service";
 import { ObjectId } from "mongodb";
 
@@ -75,6 +76,29 @@ export const getServiceById = async (req: Request, res: Response) => {
     res.status(200).json(services);
   } catch (error) {
     console.error("Error getting services by agency ID:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const getAgencyServiceController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { id } = req.params;
+    // const agencyId = new ObjectId(id); // Convert id to ObjectId
+    if (!id) {
+      return res.status(400).json({ message: "Agency ID is required" });
+    }
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "ID not valid" });
+    }
+    // Pass agencyId as an argument to getAgencyService
+    const services = await getAgencyService(id);
+
+    res.status(200).json(services);
+  } catch (error) {
+    console.error("Error in getAgencyServiceController:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };

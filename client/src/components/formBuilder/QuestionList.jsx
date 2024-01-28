@@ -16,7 +16,12 @@ const QuestionList = ({
   closeEdit,
   handleRemove,
   handleUpdateListQuestion,
+  idxGrouped,
+  idxGroupedEdit,
+  isOpenEdit,
+  idxGroupedUpdate,
 }) => {
+  console.log(idxGrouped);
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleRadioChange = (value) => {
@@ -35,10 +40,16 @@ const QuestionList = ({
         <div className="flex items-center justify-end gap-2 text-navy-700 dark:text-white">
           <FaRegEdit
             className="cursor-pointer "
-            onClick={() => openEdit(i)}
+            onClick={() => {
+              openEdit(i);
+              idxGroupedEdit();
+            }}
             size={24}
           />
-          <MdDeleteForever onClick={() => handleRemove(i)} size={26} />
+          <MdDeleteForever
+            onClick={() => handleRemove(i, idxGrouped)}
+            size={26}
+          />
         </div>
         {children}
       </div>
@@ -46,7 +57,7 @@ const QuestionList = ({
   };
   return (
     <>
-      {questions.map((el, i) => {
+      {questions?.map((el, i) => {
         switch (el.type) {
           case "TextField":
             return (
@@ -60,10 +71,12 @@ const QuestionList = ({
                   type="text"
                   key={i}
                 />
-                {idxIsOpen === i && (
+
+                {isOpenEdit && idxIsOpen === i && (
                   <EditingForm
                     data={el}
                     idx={i}
+                    idxGrouped={idxGrouped}
                     save={handleUpdateListQuestion}
                     close={() => openEdit()}
                   />
@@ -76,7 +89,7 @@ const QuestionList = ({
               <Container key={i} i={i}>
                 <MultiSelect
                   required={el.required}
-                  openEdit={openEdit === i}
+                  // openEdit={openEdit === i}
                   closeEdit={() => openEdit()}
                   label={el?.data?.label}
                   placeholder="Pilih "
@@ -86,10 +99,11 @@ const QuestionList = ({
                   idx={i}
                   //   save={handleUpdateListQuestion}
                 />
-                {idxIsOpen === i && (
+                {isOpenEdit && idxIsOpen === i && (
                   <EditingForm
                     data={el}
                     idx={i}
+                    idxGrouped={idxGrouped}
                     save={handleUpdateListQuestion}
                     close={() => openEdit()}
                   />
@@ -108,10 +122,11 @@ const QuestionList = ({
                   type="text"
                   key={i}
                 />
-                {idxIsOpen === i && (
+                {isOpenEdit && idxIsOpen === i && (
                   <EditingForm
                     data={el}
                     idx={i}
+                    idxGrouped={idxGrouped}
                     save={handleUpdateListQuestion}
                     close={() => openEdit()}
                   />
@@ -141,6 +156,7 @@ const QuestionList = ({
                 {idxIsOpen === i && (
                   <EditingForm
                     data={el}
+                    idxGrouped={idxGrouped}
                     idx={i}
                     save={handleUpdateListQuestion}
                     close={() => openEdit()}

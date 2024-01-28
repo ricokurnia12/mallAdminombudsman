@@ -1,5 +1,6 @@
 import ServiceSchema from "@src/models/service.schema";
 import { ServiceInterface } from "@src/interfaces/service.interface";
+import { ObjectId } from "mongoose";
 
 export const getService = async () => {
   try {
@@ -70,5 +71,18 @@ export const getServicesid = async (agencyId: string) => {
   } catch (error) {
     console.error("Error getting services by agency ID:", error);
     throw new Error("Internal Server Error");
+  }
+};
+
+export const getAgencyService = async (agencyId: string) => {
+  try {
+    const services = await ServiceSchema.find({ agenciesId: agencyId });
+    if (!services) {
+      return { error: "id agency not found" };
+    }
+    return services;
+  } catch (error) {
+    console.error("Error in getAgencyService:", error);
+    throw error;
   }
 };

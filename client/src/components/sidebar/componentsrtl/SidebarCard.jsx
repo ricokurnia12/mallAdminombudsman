@@ -2,7 +2,7 @@ const FreeCard = () => {
   return (
     <div className="relative mt-14 flex w-[256px] justify-center rounded-[20px] bg-gradient-to-br from-[#868CFF] via-[#432CF3] to-brand-500 pb-4">
       <div className="absolute -top-12 flex h-24 w-24 items-center justify-center rounded-full border-[4px] border-white bg-gradient-to-b from-[#868CFF] to-brand-500 dark:!border-navy-800">
-        <svg
+        {/* <svg
           width="41"
           height="41"
           viewBox="0 0 41 41"
@@ -23,7 +23,7 @@ const FreeCard = () => {
             d="M20.5 31.989C26.8452 31.989 31.989 26.8452 31.989 20.5C31.989 14.1548 26.8452 9.01099 20.5 9.01099C14.1548 9.01099 9.01099 14.1548 9.01099 20.5C9.01099 26.8452 14.1548 31.989 20.5 31.989ZM20.5 41C31.8218 41 41 31.8218 41 20.5C41 9.17816 31.8218 0 20.5 0C9.17816 0 0 9.17816 0 20.5C0 31.8218 9.17816 41 20.5 41Z"
             fill="white"
           />
-        </svg>
+        </svg> */}
       </div>
 
       {/* <div className="mt-16 flex h-fit flex-col items-center">

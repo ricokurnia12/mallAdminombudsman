@@ -14,7 +14,7 @@ const Sidebar = ({ open, onClose }) => {
       }`}
     >
       <span
-        className="absolute top-4 block cursor-pointer end-4 xl:hidden"
+        className="absolute top-4 block cursor-pointer end-4 /*xl:hidden"
         onClick={onClose}
       >
         <HiX />
